@@ -19,7 +19,7 @@ const categories = [
 export function Categories() {
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const itemsPerPage = 10;
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   const getVisibleCategories = () => {
     const duplicatedCategories = [...categories, ...categories, ...categories];
@@ -51,18 +51,30 @@ export function Categories() {
     navigate(`/events?category=${category.toLowerCase()}`);
   };
 
+  const updateItemsPerPage = () => {
+    if (window.innerWidth < 640) setItemsPerPage(4);
+    else if (window.innerWidth < 1024) setItemsPerPage(6);
+    else setItemsPerPage(10);
+  };
+
+  React.useEffect(() => {
+    updateItemsPerPage();
+    window.addEventListener("resize", updateItemsPerPage);
+    return () => window.removeEventListener("resize", updateItemsPerPage);
+  }, []);
+
   return (
-    <div className="relative max-w-7xl mx-auto px-4 py-8 bg-white dark:bg-gray-900">
+    <div className="relative max-w-7xl mx-auto px-2 sm:px-4 md:px-6 py-4 sm:py-6 md:py-8 bg-white dark:bg-gray-900">
       <div className="flex items-center">
         <button
           onClick={prevSlide}
-          className="absolute left-0 z-10 p-2 rounded-full bg-white dark:bg-gray-800 shadow-md hover:bg-gray-50 dark:hover:bg-gray-600 transition-all"
+          className="absolute left-0 z-10 p-1 sm:p-2 md:p-3 rounded-full bg-white dark:bg-gray-800 shadow-md hover:bg-gray-50 dark:hover:bg-gray-600 transition-all"
           aria-label="Previous categories"
         >
-          <ChevronLeft className="w-6 h-6 text-gray-600 dark:text-gray-300" />
+          <ChevronLeft className="w-4 sm:w-5 md:w-6 h-4 sm:h-5 md:h-6 text-gray-600 dark:text-gray-300" />
         </button>
 
-        <div className="flex justify-center gap-4 overflow-visible px-12">
+        <div className="flex justify-center gap-2 sm:gap-3 md:gap-4 overflow-hidden px-8 sm:px-12 md:px-16">
           {getVisibleCategories().map((category, index) => (
             <div
               key={`${category.name}-${index}`}
@@ -76,10 +88,10 @@ export function Categories() {
 
         <button
           onClick={nextSlide}
-          className="absolute right-0 z-10 p-2 rounded-full bg-white dark:bg-gray-800 shadow-md hover:bg-gray-50 dark:hover:bg-gray-600 transition-all"
+          className="absolute right-0 z-10 p-1 sm:p-2 md:p-3 rounded-full bg-white dark:bg-gray-800 shadow-md hover:bg-gray-50 dark:hover:bg-gray-600 transition-all"
           aria-label="Next categories"
         >
-          <ChevronRight className="w-6 h-6 text-gray-600 dark:text-gray-300" />
+          <ChevronRight className="w-4 sm:w-5 md:w-6 h-4 sm:h-5 md:h-6 text-gray-600 dark:text-gray-300" />
         </button>
       </div>
     </div>
