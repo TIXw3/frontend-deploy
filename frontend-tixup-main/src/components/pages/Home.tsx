@@ -337,204 +337,206 @@ const Home: React.FC<HomeProps> = ({ onLikeToggle, likedEvents, searchTerm, sele
 
       {/* Popular Events Carousel */}
       {searchTerm.trim() === "" && (
-        <>
-          <motion.section
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mt-16"
+  <>
+    {/* Popular Events Carousel */}
+    <motion.section
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="mt-8 sm:mt-16"
+    >
+      <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-gray-800 dark:text-gray-100 px-4 sm:px-8">Eventos Populares</h2>
+      <div className="relative px-4 sm:px-8 md:px-12 lg:px-16">
+        <div className="flex items-center">
+          <button
+            onClick={voltar}
+            className="absolute left-0 z-10 transform -translate-x-2 sm:-translate-x-4 hover:scale-110 transition-transform"
           >
-            <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-gray-100">Eventos Populares</h2>
-            <div className="relative px-16">
-              <div className="flex items-center">
-                <button
-                  onClick={voltar}
-                  className="absolute left-0 z-10 transform -translate-x-4 hover:scale-110 transition-transform"
-                >
-                  <ArrowCircleLeft size={48} color="#ff6b00" variant="Bold" />
-                </button>
-                <div className="overflow-hidden w-full">
-                  <motion.div
-                    className="flex gap-6"
-                    animate={{ x: `-${inicioCarrossel * (100 / visiveis)}%` }}
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    style={{ width: `${(eventosPopulares.length / 4) * 100}%` }}
-                  >
-                    {eventosPopulares.map((evento) => (
-                      <motion.div
-                        key={evento.id}
-                        className="flex-none w-[calc(25%-1.5rem)] bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
-                        whileHover={{ y: -5 }}
-                      >
-                        <div className="relative">
-                          <img
-                            src={evento.imagem}
-                            alt={evento.nome}
-                            className="w-full h-48 object-cover"
-                            loading="lazy"
-                          />
-                          <button
-                            onClick={() =>
-                              toggleLike(evento.id, {
-                                name: evento.nome,
-                                image: evento.imagem,
-                                date: evento.date,
-                                price: evento.price,
-                              })
-                            }
-                            className="absolute top-2 right-2 p-2 rounded-full bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm"
-                          >
-                            <Heart
-                              className={likes[evento.id] ? "text-red-500 fill-current" : "text-gray-600 dark:text-gray-300"}
-                              size={24}
-                            />
-                          </button>
-                        </div>
-                        <div className="p-4 space-y-1">
-                          <h3 className="font-semibold text-gray-800 dark:text-gray-100 text-lg">{evento.nome}</h3>
-                          <p className="text-gray-600 dark:text-gray-400 text-sm">{evento.date}</p>
-                          <p className="text-gray-500 dark:text-gray-400 text-sm">{evento.city}</p>
-                          <div className="flex items-center justify-between">
-                            <p className="text-orange-500 dark:text-orange-400 font-semibold">{evento.price}</p>
-                            <Link
-                              to="/detalhes-evento"
-                              state={{ event: evento }}
-                              className="bg-orange-500 text-white px-4 py-1 rounded-lg hover:bg-orange-600 dark:hover:bg-orange-700 transition-colors"
-                            >
-                              Comprar
-                            </Link>
-                          </div>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </motion.div>
-                </div>
-                <button
-                  onClick={avancar}
-                  className="absolute right-0 z-10 transform translate-x-4 hover:scale-110 transition-transform"
-                >
-                  <ArrowCircleRight size={48} color="#ff6b00" variant="Bold" />
-                </button>
-              </div>
-            </div>
-          </motion.section>
-
-          {/* Category Carousels */}
-          {categorias.map((categoria, categoriaIndex) => (
-            <motion.section
-              key={categoria.nome}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: categoriaIndex * 0.2 }}
-              className="mt-16"
+            <ArrowCircleLeft size={32} color="#ff6b00" variant="Bold" />
+          </button>
+          <div className="overflow-hidden w-full">
+            <motion.div
+              className="flex gap-4 sm:gap-6"
+              animate={{ x: `-${inicioCarrossel * (100 / visiveis)}%` }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              style={{ width: `${(eventosPopulares.length / visiveis) * 100}%` }}
             >
-              <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-gray-100">{categoria.nome}</h2>
-              <div className="relative px-16">
-                <div className="flex items-center">
-                  <button
-                    onClick={() => voltarCategoria(categoriaIndex)}
-                    className="absolute left-0 z-10 transform -translate-x-4 hover:scale-110 transition-transform"
-                  >
-                    <ArrowCircleLeft size={48} color="#ff6b00" variant="Bold" />
-                  </button>
-                  <div className="overflow-hidden w-full">
-                    <motion.div
-                      className="flex gap-6"
-                      animate={{ x: `-${inicioCarrosselCategoria[categoriaIndex] * (100 / visiveis)}%` }}
-                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                      style={{ width: `${(categoria.eventos.length / visiveis) * 100}%` }}
+              {eventosPopulares.map((evento) => (
+                <motion.div
+                  key={evento.id}
+                  className="flex-none w-[80%] sm:w-1/2 md:w-1/3 lg:w-1/4 bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+                  whileHover={{ y: -5 }}
+                >
+                  <div className="relative">
+                    <img
+                      src={evento.imagem}
+                      alt={evento.nome}
+                      className="w-full h-40 sm:h-48 object-cover"
+                      loading="lazy"
+                    />
+                    <button
+                      onClick={() =>
+                        toggleLike(evento.id, {
+                          name: evento.nome,
+                          image: evento.imagem,
+                          date: evento.date,
+                          price: evento.price,
+                        })
+                      }
+                      className="absolute top-2 right-2 p-1.5 sm:p-2 rounded-full bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm"
                     >
-                      {categoria.eventos.slice(inicioCarrosselCategoria[categoriaIndex], inicioCarrosselCategoria[categoriaIndex] + visiveis).map((evento) => (
-                        <motion.div
-                          key={evento.id}
-                          className="flex-none basis-1/4 max-w-[25%] bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
-                          whileHover={{ y: -5 }}
-                        >
-                          <div className="relative">
-                            <img
-                              src={evento.imagem}
-                              alt={evento.nome}
-                              className="w-full h-48 object-cover"
-                              loading="lazy"
-                            />
-                            <button
-                              onClick={() =>
-                                toggleLike(evento.id, {
-                                  name: evento.nome,
-                                  image: evento.imagem,
-                                  date: evento.date,
-                                  price: evento.price,
-                                })
-                              }
-                              className="absolute top-2 right-2 p-2 rounded-full bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm"
-                            >
-                              <Heart
-                                className={likes[evento.id] ? "text-red-500 fill-current" : "text-gray-600 dark:text-gray-300"}
-                                size={24}
-                              />
-                            </button>
-                          </div>
-                          <div className="p-4 space-y-1">
-                            <h3 className="font-semibold text-gray-800 dark:text-gray-100 text-lg">{evento.nome}</h3>
-                            <p className="text-gray-600 dark:text-gray-400 text-sm">{evento.date}</p>
-                            <p className="text-gray-500 dark:text-gray-400 text-sm">{evento.city}</p>
-                            <div className="flex items-center justify-between">
-                              <p className="text-orange-500 dark:text-orange-400 font-semibold">{evento.price}</p>
-                              <Link
-                                to="/detalhes-evento"
-                                state={{ event: evento }}
-                                className="bg-orange-500 text-white px-4 py-1 rounded-lg hover:bg-orange-600 dark:hover:bg-orange-700 transition-colors"
-                              >
-                                Comprar
-                              </Link>
-                            </div>
-                          </div>
-                        </motion.div>
-                      ))}
-                    </motion.div>
+                      <Heart
+                        className={likes[evento.id] ? "text-red-500 fill-current" : "text-gray-600 dark:text-gray-300"}
+                        size={20}
+                      />
+                    </button>
                   </div>
-                  <button
-                    onClick={() => avancarCategoria(categoriaIndex)}
-                    className="absolute right-0 z-10 transform translate-x-4 hover:scale-110 transition-transform"
-                  >
-                    <ArrowCircleRight size={48} color="#ff6b00" variant="Bold" />
-                  </button>
-                </div>
-              </div>
-            </motion.section>
-          ))}
-        </>
-      )}
-
-      {/* Newsletter Section */}
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mt-16 text-center bg-gradient-to-br from-orange-50 to-orange-100 dark:from-gray-800 dark:to-gray-700 p-12 rounded-2xl border border-orange-200 dark:border-gray-600"
-      >
-        <h2 className="text-3xl font-bold mb-4 text-gray-800 dark:text-gray-100">Fique por dentro dos eventos</h2>
-        <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
-          Inscreva-se para receber atualizações sobre os melhores eventos da sua região.
-        </p>
-        <div className="flex justify-center gap-4 max-w-md mx-auto">
-          <input
-            type="email"
-            placeholder="Digite seu e-mail"
-            className="flex-1 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-          />
-          <button className="bg-orange-500 text-white px-6 py-3 rounded-lg hover:bg-orange-600 dark:hover:bg-orange-700 transition-colors">
-            Inscrever-se
+                  <div className="p-3 sm:p-4 space-y-1">
+                    <h3 className="font-semibold text-gray-800 dark:text-gray-100 text-base sm:text-lg">{evento.nome}</h3>
+                    <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">{evento.date}</p>
+                    <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">{evento.city}</p>
+                    <div className="flex items-center justify-between">
+                      <p className="text-orange-500 dark:text-orange-400 font-semibold text-sm sm:text-base">{evento.price}</p>
+                      <Link
+                        to="/detalhes-evento"
+                        state={{ event: evento }}
+                        className="bg-orange-500 text-white px-3 sm:px-4 py-1 rounded-lg hover:bg-orange-600 dark:hover:bg-orange-700 transition-colors text-sm sm:text-base"
+                      >
+                        Comprar
+                      </Link>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+          <button
+            onClick={avancar}
+            className="absolute right-0 z-10 transform translate-x-2 sm:translate-x-4 hover:scale-110 transition-transform"
+          >
+            <ArrowCircleRight size={window.innerWidth >= 640 ? 48 : 32} color="#ff6b00" variant="Bold" />
           </button>
         </div>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mt-4">
-          Ao se inscrever, você concorda com nossa{" "}
-          <a href="#" className="text-orange-500 dark:text-orange-400 hover:underline">
-            Política de Privacidade
-          </a>
-          .
-        </p>
+      </div>
+    </motion.section>
+
+    {/* Category Carousels */}
+    {categorias.map((categoria, categoriaIndex) => (
+      <motion.section
+        key={categoria.nome}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: categoriaIndex * 0.2 }}
+        className="mt-8 sm:mt-16"
+      >
+        <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-gray-800 dark:text-gray-100 px-4 sm:px-8">{categoria.nome}</h2>
+        <div className="relative px-4 sm:px-8 md:px-12 lg:px-16">
+          <div className="flex items-center">
+            <button
+              onClick={() => voltarCategoria(categoriaIndex)}
+              className="absolute left-0 z-10 transform -translate-x-2 sm:-translate-x-4 hover:scale-110 transition-transform"
+            >
+              <ArrowCircleLeft size={window.innerWidth >= 640 ? 48 : 32} color="#ff6b00" variant="Bold" />
+            </button>
+            <div className="overflow-hidden w-full">
+              <motion.div
+                className="flex gap-4 sm:gap-6"
+                animate={{ x: `-${inicioCarrosselCategoria[categoriaIndex] * (100 / visiveis)}%` }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                style={{ width: `${(categoria.eventos.length / visiveis) * 100}%` }}
+              >
+                {categoria.eventos
+                  .slice(inicioCarrosselCategoria[categoriaIndex], inicioCarrosselCategoria[categoriaIndex] + visiveis)
+                  .map((evento) => (
+                    <motion.div
+                      key={evento.id}
+                      className="flex-none w-[80%] sm:w-1/2 md:w-1/3 lg:w-1/4 bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+                      whileHover={{ y: -5 }}
+                    >
+                      <div className="relative">
+                        <img
+                          src={evento.imagem}
+                          alt={evento.nome}
+                          className="w-full h-40 sm:h-48 object-cover"
+                          loading="lazy"
+                        />
+                        <button
+                          onClick={() =>
+                            toggleLike(evento.id, {
+                              name: evento.nome,
+                              image: evento.imagem,
+                              date: evento.date,
+                              price: evento.price,
+                            })
+                          }
+                          className="absolute top-2 right-2 p-1.5 sm:p-2 rounded-full bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm"
+                        >
+                          <Heart
+                            className={likes[evento.id] ? "text-red-500 fill-current" : "text-gray-600 dark:text-gray-300"}
+                            size={20}
+                          />
+                        </button>
+                      </div>
+                      <div className="p-3 sm:p-4 space-y-1">
+                        <h3 className="font-semibold text-gray-800 dark:text-gray-100 text-base sm:text-lg">{evento.nome}</h3>
+                        <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">{evento.date}</p>
+                        <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">{evento.city}</p>
+                        <div className="flex items-center justify-between">
+                          <p className="text-orange-500 dark:text-orange-400 font-semibold text-sm sm:text-base">{evento.price}</p>
+                          <Link
+                            to="/detalhes-evento"
+                            state={{ event: evento }}
+                            className="bg-orange-500 text-white px-3 sm:px-4 py-1 rounded-lg hover:bg-orange-600 dark:hover:bg-orange-700 transition-colors text-sm sm:text-base"
+                          >
+                            Comprar
+                          </Link>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+              </motion.div>
+            </div>
+            <button
+              onClick={() => avancarCategoria(categoriaIndex)}
+              className="absolute right-0 z-10 transform translate-x-2 sm:translate-x-4 hover:scale-110 transition-transform"
+            >
+              <ArrowCircleRight size={window.innerWidth >= 640 ? 48 : 32} color="#ff6b00" variant="Bold" />
+            </button>
+          </div>
+        </div>
       </motion.section>
+    ))}
+  </>
+)}
+
+{/* Newsletter Section */}
+<motion.section
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  className="mt-8 sm:mt-16 text-center bg-gradient-to-br from-orange-50 to-orange-100 dark:from-gray-800 dark:to-gray-700 p-8 sm:p-12 rounded-2xl border border-orange-200 dark:border-gray-600"
+>
+  <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-gray-800 dark:text-gray-100">Fique por dentro dos eventos</h2>
+  <p className="text-gray-600 dark:text-gray-300 mb-6 text-sm sm:text-base max-w-xl mx-auto">
+    Inscreva-se para receber atualizações sobre os melhores eventos da sua região.
+  </p>
+  <div className="flex flex-col sm:flex-row justify-center gap-4 max-w-md mx-auto">
+    <input
+      type="email"
+      placeholder="Digite seu e-mail"
+      className="flex-1 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 p-2 sm:p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm sm:text-base"
+    />
+    <button className="bg-orange-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg hover:bg-orange-600 dark:hover:bg-orange-700 transition-colors text-sm sm:text-base">
+      Inscrever-se
+    </button>
+  </div>
+  <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-4">
+    Ao se inscrever, você concorda com nossa{" "}
+    <a href="#" className="text-orange-500 dark:text-orange-400 hover:underline">
+      Política de Privacidade
+    </a>
+    .
+  </p>
+</motion.section>
     </main>
   );
 };
-
 export default Home;
