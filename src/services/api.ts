@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: 'https://backend-deploy-kom8.onrender.com',
+  baseURL: 'https://backend-deploy-kom8.onrender.com/api',
   withCredentials: true,
 });
 
